@@ -29,7 +29,7 @@ $GLOBALS['profile'] = array(
 
 	# Advanced Config - Please see README before setting these
 #	'allow_gmp'	=>	false,
-	'allow_test'	=> 	true,
+	'allow_test'	=> 	false,
 #	'auth_realm'	=>	'OpenID',
 #	'force_bigmath'	=>	false,
 #	'idp_url'	=>	'http://your.site.com/path',
