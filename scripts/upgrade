@@ -7,7 +7,7 @@ path=$(sudo yunohost app setting openidldap path)
 # Copy files to the right place
 final_path=/var/www/openidldap
 
-rm -rf $final_path/*
+sudo rm -rf $final_path/*
 sudo cp -a ../sources/* $final_path
 
 # Extract default language and timezone that will be provided unless they are by LDAP
