@@ -5,5 +5,5 @@ path=$(sudo yunohost app setting openidldap path)
 
 currentdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-$current_dir/remove
-$current_dir/install $domain $path
+$currentdir/remove
+$currentdir/install $domain $path
