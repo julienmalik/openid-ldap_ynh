@@ -34,7 +34,7 @@ sudo sed -i "s@YNH_PATH@$path@g" ../conf/nginx.conf
 sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/openid.conf
 
 # Init log file
-sudo rm /var/log/openid
+sudo rm -f /var/log/openid
 sudo touch /var/log/openid
 sudo chown www-data: /var/log/openid
 
