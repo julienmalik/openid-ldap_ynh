@@ -1,4 +1,4 @@
-openid-ldap_ynh
-===============
+OpenID-LDAP for YunoHost
+-------------------------
 
-OpenID-LDAP Yunohost application
+http://www.openid-ldap.org

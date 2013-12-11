@@ -1,0 +1,44 @@
+#!/bin/bash -x
+
+# Retrieve arguments
+domain=$1
+path=$2
+
+# Check domain/path availability
+sudo yunohost app checkurl $domain$path -a firefoxsync
+if [[ ! $? -eq 0 ]]; then
+  exit 1
+fi
+
+# Copy files to the right place
+final_path=/var/www/openid
+
+# owner=julienmalik
+# repo=openid-ldap
+# ref=73b51be
+# sudo bash -c "cd /tmp/ && curl -0L https://api.github.com/repos/$owner/$repo/tarball | tar zxv"
+# sudo mv /tmp/$owner-$repo-$ref/www-root/ $final_path
+# sudo rm /tmp/$owner-$repo-$ref
+# sudo cp ../conf/ldap.php.in $final_path/ldap.php
+sudo mkdir -p $final_path
+sudo cp -a ../sources/* $final_path
+
+# Extract default language and timezone that will be provided unless they are by LDAP
+ynh_lang=sudo bash -c "echo $LANG | cut -d '_' -f 1"
+sudo sed -i "s/YNH_DFT_LANG/$ynh_lang/g" $final_path/ldap.php
+ynh_timezone=`cat /etc/timezone`
+sudo sed -i "s/YNH_DFT_TIMEZONE/$ynh_timezone/g" $final_path/ldap.php
+
+# Nginx config
+sudo sed -i "s@YNH_PATH@$path@g" ../conf/nginx.conf
+sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/openid.conf
+
+# Init log file
+sudo rm /var/log/openid
+sudo touch /var/log/openid
+sudo chown www-data: /var/log/openid
+
+# Reload Nginx and regenerate SSOwat conf
+sudo service nginx reload
+sudo yunohost app setting firefoxsync skipped_uris -v "/"
+sudo yunohost app ssowatconf

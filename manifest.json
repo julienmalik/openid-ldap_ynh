@@ -1,0 +1,35 @@
+{
+    "name": "OpenID LDAP",
+    "id": "openidldap",
+    "description": {
+        "en": "",
+        "fr": ""
+    },
+    "developer": {
+        "name": "julien",
+        "email": "julien.malik@paraiso.me",
+        "url": "http://www.openid-ldap.org"
+    },
+    "multi_instance": "false",
+    "arguments": {
+        "install" : [
+            {
+                "name": "domain",
+                "ask": {
+                    "en": "Choose a domain for OpenID LDAP provider",
+                    "fr": "Choisissez un domaine pour le fournisseur OpenID LDAP"
+                },
+                "example": "domain.org"
+            },
+            {
+                "name": "path",
+                "ask": {
+                    "en": "Choose a path for OpenID LDAP provider",
+                    "fr": "Choisissez un chemin pour le fournisseur OpenID LDAP"
+                },
+                "example": "/openid",
+                "default": "/openid"
+            }
+        ]
+    }
+}
