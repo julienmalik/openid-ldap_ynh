@@ -34,9 +34,10 @@ sudo sed -i "s@YNH_PATH@$path@g" ../conf/nginx.conf
 sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/openidldap.conf
 
 # Init log file
-sudo rm -f /var/log/openidldap
-sudo touch /var/log/openidldap
-sudo chown www-data: /var/log/openidldap
+logfile=/var/log/openidldap
+sudo rm -f $logfile
+sudo touch $logfile
+sudo chown www-data: $logfile
 
 # Reload Nginx and regenerate SSOwat conf
 sudo service nginx reload
