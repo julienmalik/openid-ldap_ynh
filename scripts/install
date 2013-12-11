@@ -5,7 +5,7 @@ domain=$1
 path=$2
 
 # Check domain/path availability
-sudo yunohost app checkurl $domain$path -a firefoxsync
+sudo yunohost app checkurl $domain$path -a openid
 if [[ ! $? -eq 0 ]]; then
   exit 1
 fi
@@ -40,5 +40,5 @@ sudo chown www-data: /var/log/openid
 
 # Reload Nginx and regenerate SSOwat conf
 sudo service nginx reload
-sudo yunohost app setting firefoxsync skipped_uris -v "/"
+sudo yunohost app setting openid skipped_uris -v "/"
 sudo yunohost app ssowatconf

@@ -1,16 +1,10 @@
 #!/bin/bash
 
-db_user=firefoxsync
-db_name=firefoxsync
-root_pwd=$(sudo cat /etc/yunohost/mysql)
-domain=$(sudo yunohost app setting firefoxsync domain)
+domain=$(sudo yunohost app setting openid domain)
+sudo rm -f /etc/nginx/conf.d/$domain.d/openid.conf
 
-mysql -u root -p$root_pwd -e "DROP DATABASE $db_name ; DROP USER $db_user@localhost ;"
-sudo rm -rf /var/www/firefoxsync
-sudo rm -f /etc/nginx/conf.d/$domain.d/firefoxsync.conf
-sudo rm -f /etc/uwsgi/apps-enabled/firefoxsync.ini
-sudo rm -f /etc/uwsgi/apps-available/firefoxsync.ini
-
+sudo rm -rf /var/www/openid
+sudo rm -f /var/log/openid
 
 sudo service nginx reload
 sudo yunohost app ssowatconf
