@@ -1,6 +1,6 @@
 #!/bin/bash
 
-domain=$(sudo yunohost app setting openid domain)
+domain=$(sudo yunohost app setting openidldap domain)
 sudo rm -f /etc/nginx/conf.d/$domain.d/openidldap.conf
 
 sudo rm -rf /var/www/openidldap
