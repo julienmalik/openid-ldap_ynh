@@ -3,6 +3,7 @@
 # Retrieve arguments
 domain=$(sudo yunohost app setting openidldap domain)
 path=$(sudo yunohost app setting openidldap path)
+path=${path%/}
 
 # Copy files to the right place
 final_path=/var/www/openidldap
