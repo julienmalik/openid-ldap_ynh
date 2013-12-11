@@ -5,13 +5,13 @@ domain=$1
 path=$2
 
 # Check domain/path availability
-sudo yunohost app checkurl $domain$path -a openid
+sudo yunohost app checkurl $domain$path -a openidldap
 if [[ ! $? -eq 0 ]]; then
   exit 1
 fi
 
 # Copy files to the right place
-final_path=/var/www/openid
+final_path=/var/www/openidldap
 
 # owner=julienmalik
 # repo=openid-ldap
@@ -25,20 +25,20 @@ sudo cp -a ../sources/* $final_path
 
 # Extract default language and timezone that will be provided unless they are by LDAP
 ynh_lang=sudo bash -c "echo $LANG | cut -d '_' -f 1"
-sudo sed -i "s/YNH_DFT_LANG/$ynh_lang/g" $final_path/ldap.php
-ynh_timezone=`cat /etc/timezone`
-sudo sed -i "s/YNH_DFT_TIMEZONE/$ynh_timezone/g" $final_path/ldap.php
+sudo sed -i "s@YNH_DFT_LANG@$ynh_lang@g" $final_path/ldap.php
+ynh_timezone=$(cat /etc/timezone)
+sudo sed -i "s@YNH_DFT_TIMEZONE@$ynh_timezone@g" $final_path/ldap.php
 
 # Nginx config
 sudo sed -i "s@YNH_PATH@$path@g" ../conf/nginx.conf
-sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/openid.conf
+sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/openidldap.conf
 
 # Init log file
-sudo rm -f /var/log/openid
-sudo touch /var/log/openid
-sudo chown www-data: /var/log/openid
+sudo rm -f /var/log/openidldap
+sudo touch /var/log/openidldap
+sudo chown www-data: /var/log/openidldap
 
 # Reload Nginx and regenerate SSOwat conf
 sudo service nginx reload
-sudo yunohost app setting openid skipped_uris -v "/"
+sudo yunohost app setting openidldap skipped_uris -v "/"
 sudo yunohost app ssowatconf

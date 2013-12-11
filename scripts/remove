@@ -1,10 +1,10 @@
 #!/bin/bash
 
 domain=$(sudo yunohost app setting openid domain)
-sudo rm -f /etc/nginx/conf.d/$domain.d/openid.conf
+sudo rm -f /etc/nginx/conf.d/$domain.d/openidldap.conf
 
-sudo rm -rf /var/www/openid
-sudo rm -f /var/log/openid
+sudo rm -rf /var/www/openidldap
+sudo rm -f /var/log/openidldap
 
 sudo service nginx reload
 sudo yunohost app ssowatconf
