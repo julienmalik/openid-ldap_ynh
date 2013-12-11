@@ -1,9 +1,31 @@
-#!/bin/bash
+#!/bin/bash -x
 
+# Retrieve arguments
 domain=$(sudo yunohost app setting openidldap domain)
 path=$(sudo yunohost app setting openidldap path)
 
-currentdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# Copy files to the right place
+final_path=/var/www/openidldap
 
-sudo bash -c "$currentdir/remove"
-sudo bash -c "$currentdir/install $domain $path"
+rm -rf $final_path/*
+sudo cp -a ../sources/* $final_path
+
+# Extract default language and timezone that will be provided unless they are by LDAP
+ynh_lang=$(sudo bash -c "echo $LANG | cut -d '_' -f 1")
+sudo sed -i "s@YNH_DFT_LANG@$ynh_lang@g" $final_path/ldap.php
+ynh_timezone=$(cat /etc/timezone)
+sudo sed -i "s@YNH_DFT_TIMEZONE@$ynh_timezone@g" $final_path/ldap.php
+
+# Nginx config
+sudo sed -i "s@YNH_PATH@$path@g" ../conf/nginx.conf
+sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/openidldap.conf
+
+# Init log file
+logfile=/var/log/openidldap
+sudo touch $logfile
+sudo chown www-data: $logfile
+
+# Reload Nginx and regenerate SSOwat conf
+sudo service nginx reload
+sudo yunohost app setting openidldap skipped_uris -v "/"
+sudo yunohost app ssowatconf
