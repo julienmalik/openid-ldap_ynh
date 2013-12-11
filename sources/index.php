@@ -40,7 +40,7 @@ $GLOBALS['profile'] = array(
 	# Logging Config - Please see README before setting these
 	'debug'		=>	false,
 	'authlog'	=>	true,
-	'logfile'	=>	'/var/log/openid'
+	'logfile'	=>	'/var/log/openidldap'
 );
 
 /**
